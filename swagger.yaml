@@ -1,0 +1,371 @@
+openapi: 3.0.0
+info:
+  title: TaskmanagerAPI
+  description: |
+    # 🚀 Get started here
+    This is a Task Manager API.It allows you to perform CRUD operations on products, tasks, jobs, and users.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3002/
+
+security:
+  - BearerAuth: []  # 🔐 Global Authorization (JWT Bearer Token)
+
+tags:
+  - name: Products
+    description: Operations related to products
+  - name: Tasks
+    description: Operations related to tasks
+  - name: Jobs
+    description: Operations related to jobs
+  - name: Users
+    description: Operations related to users
+  - name: Auth
+    description: Authentication and user management
+
+paths:
+  /api/v1/products:
+    post:
+      tags: [Products]
+      summary: Create a new product
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        '201':
+          description: Product created successfully
+    get:
+      tags: [Products]
+      summary: Get all products
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: A list of products
+          
+  /api/v1/products/{productId}:
+    get:
+      tags: [Products]
+      summary: Get a single product
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single product
+    patch:
+      tags: [Products]
+      summary: Update a single Product
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: Product updated successfully
+    delete:
+      tags: [Products]
+      summary: delete a single Product
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product deleted successfully
+          
+  /api/v1/products/uploadfile:       
+   post:
+    tags: [Products]
+    summary: Upload an image for a single product
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              file:
+                type: string
+                format: binary
+    responses:
+      '200':
+        description: Image uploaded successfully
+      '400':
+        description: Bad request (e.g., invalid file format)
+      '401':
+        description: Unauthorized (if JWT token is missing or invalid)
+
+
+  /api/v1/tasks:
+    post:
+      tags: [Tasks]
+      summary: Create a new task
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '201':
+          description: Task created successfully
+    get:
+      tags: [Tasks]
+      summary: Get all tasks
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: A list of tasks
+          
+  /api/v1/tasks/{taskId}:
+    get:
+      tags: [Tasks]
+      summary: Get a single product
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single task
+    patch:
+      tags: [Tasks]
+      summary: Update a single task
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '200':
+          description: task updated successfully
+    delete:
+      tags: [Tasks]
+      summary: delete a single Product
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: task deleted successfully
+
+  /api/v1/jobs:
+    get:
+      tags: [Jobs]
+      summary: Get all jobs
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: A list of jobs
+    post:
+      tags: [Jobs]
+      summary: Create a new job
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+      responses:
+        '201':
+          description: Job created successfully
+
+  /api/v1/jobs/{jobId}:
+    get:
+      tags: [Jobs]
+      summary: Get a single job
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single job
+    patch:
+      tags: [Jobs]
+      summary: Update a job
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+      responses:
+        '200':
+          description: Job updated successfully
+    delete:
+      tags: [Jobs]
+      summary: Delete a job
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job deleted successfully
+
+  /api/v1/users:
+    get:
+      tags: [Users]
+      summary: Get all users
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: A list of users
+
+  /api/v1/auth/register:
+    post:
+      tags: [Auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: User registered successfully
+
+  /api/v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Auth"
+      responses:
+        '200':
+          description: User logged in successfully
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  # 🔐 Authorization Token format
+
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        category:
+          type: string
+        stock:
+          type: integer
+        imageurl:
+          type: string
+
+    Task:
+      type: object
+      properties:
+        taskName:
+          type: string
+        isCompleted:
+          type: boolean
+
+    Job:
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+        status:
+          type: string
+
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    Auth:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
