@@ -12,7 +12,7 @@ TaskManagerAPI is a RESTful API designed to manage tasks efficiently. It provide
 ## Installation
 1. Clone the repository:
     
-    git clone https://github.com/yourusername/TaskManagerAPI.git
+    git clone https://github.com/Kamaraj-Balakrishnan-ZS0422/TaskManagerAPI.git
     
 2. Navigate to the project directory:
     
